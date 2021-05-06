@@ -4,11 +4,15 @@ import com.example.demo.dao.LibraryRepository;
 import com.example.demo.entity.Library;
 import com.example.demo.entity.ResponseBook;
 import com.example.demo.service.LibraryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RestController
 public class BookController {
@@ -20,6 +24,8 @@ public class BookController {
 
     @Autowired
     LibraryService libraryService;
+
+    private static final Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @PostMapping("/addBook")
     public ResponseEntity<ResponseBook> addBook(@RequestBody Library library){
@@ -48,5 +54,29 @@ public class BookController {
         }catch(Exception e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("getBooks/author")
+    public List<Library> getBookByAuthorName(@RequestParam(value = "authorname") String authorName){
+        return libraryRepository.findAllByAuthor(authorName);
+    }
+
+    @PutMapping("/updateBook/{id}")
+    public ResponseEntity<Library> updateBook(@PathVariable(value = "id") String id,
+                                              @RequestBody Library library){
+        Library existingBook = libraryRepository.findById(id).get();
+        existingBook.setAisle(library.getAisle());
+        existingBook.setAuthor(library.getAuthor());
+        existingBook.setBook_name(library.getBook_name());
+        libraryRepository.save(existingBook);
+        return new ResponseEntity<Library>(existingBook, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteBook")
+    public ResponseEntity<String> deleteBookById(@RequestBody Library library){
+        logger.info("Book deleted");
+        Library lib = libraryRepository.findById(library.getId()).get();
+        libraryRepository.delete(lib);
+        return new ResponseEntity<>("Book deleted", HttpStatus.CREATED);
     }
 }
