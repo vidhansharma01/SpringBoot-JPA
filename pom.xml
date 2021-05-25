@@ -54,6 +54,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
+				<!-- Plugin to test Integration TestCase-->
                 <executions>
                     <execution>
                         <id>integration-tests</id>

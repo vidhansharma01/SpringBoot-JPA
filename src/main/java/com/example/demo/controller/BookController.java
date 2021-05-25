@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dao.LibraryRepository;
 import com.example.demo.entity.Library;
-import com.example.demo.entity.ResponseBook;
+import com.example.demo.model.ResponseBook;
 import com.example.demo.service.LibraryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

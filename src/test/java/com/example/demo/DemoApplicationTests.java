@@ -3,9 +3,8 @@ package com.example.demo;
 import com.example.demo.controller.BookController;
 import com.example.demo.dao.LibraryRepository;
 import com.example.demo.entity.Library;
-import com.example.demo.entity.ResponseBook;
+import com.example.demo.model.ResponseBook;
 import com.example.demo.service.LibraryService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +48,7 @@ class DemoApplicationTests {
 	void contextLoads() {
 	}
 
+	//Unit Test
 	@Test
 	public void checkBook(){
         LibraryService libraryService = new LibraryService();
@@ -70,7 +70,7 @@ class DemoApplicationTests {
         assertEquals(responseBook.getMsg(), "Book is successfully added");
     }
 
-    //MockMvc
+    //MockMvc - to test controller methods
     @Test
     public void addBookControllerTest() throws Exception {
         Library lib = sendLibrary();

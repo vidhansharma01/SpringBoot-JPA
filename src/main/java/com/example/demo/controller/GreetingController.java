@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class GreetingController {
+    @Autowired
     Greeting greeting;
 
     @GetMapping("/greeting")
     public Greeting greeting(@RequestParam(value = "name") String name){
-        greeting = new Greeting();
         greeting.setId(1);
         greeting.setContent("This is " + name);
         return greeting;
