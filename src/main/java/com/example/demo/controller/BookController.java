@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dao.LibraryRepository;
 import com.example.demo.entity.Library;
+import com.example.demo.exception.BookException;
 import com.example.demo.model.ResponseBook;
 import com.example.demo.service.LibraryService;
 import org.slf4j.Logger;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -47,13 +47,11 @@ public class BookController {
     }
 
     @GetMapping("/getBooks/{id}")
-    public Library getBookById(@PathVariable(value = "id")String id){
-        try{
+    public void getBookById(@PathVariable(value = "id")String id) throws Exception {
+
             Library lib = libraryRepository.findById(id).get();
-            return lib;
-        }catch(Exception e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+            if (lib == null)
+                throw new BookException("Nope");
     }
 
     @GetMapping("getBooks/author")
